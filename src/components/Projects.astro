@@ -12,8 +12,8 @@ const vitrine = getProject('vitrine');
       <p class="eyebrow">Proyectos</p>
       <h2 id="proyectos-title">Lo que he construido.</h2>
       <p class="section-lead">
-        Dos empresas en las que llevé la tecnología, cada una con muchos proyectos dentro, y mi proyecto open source. Todo
-        contado a fondo: qué hice, cómo lo hice y qué salió.
+        Las dos empresas en las que he llevado la tecnología y mi proyecto de código abierto, contados a fondo: qué hice,
+        cómo lo hice y qué resultado tuvo.
       </p>
     </header>
 
@@ -22,10 +22,11 @@ const vitrine = getProject('vitrine');
         <p class="pcard-meta"><strong>{mixreal.name}</strong> · {mixreal.role} · {mixreal.period}</p>
         <h3>{mixreal.title}</h3>
         <p class="pcard-summary">{mixreal.summary}</p>
-        <ul class="pcard-chips" aria-label="Proyectos en MixReal AI">
+        <p class="pcard-chips-label" id="mixreal-proyectos">Proyectos en MixReal</p>
+        <ul class="pcard-chips" aria-labelledby="mixreal-proyectos">
           {mixreal.highlights?.map((h) => <li>{h}</li>)}
         </ul>
-        <span class="more">Ver todos los proyectos <span aria-hidden="true">→</span></span>
+        <span class="more">Ver los proyectos de MixReal <span aria-hidden="true">→</span></span>
       </div>
       <div class="collage" aria-hidden="true">
         <div class="c-main">
@@ -124,11 +125,18 @@ const vitrine = getProject('vitrine');
     max-width: 34em;
   }
 
+  .pcard-chips-label {
+    margin: 22px 0 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-3);
+  }
+
   .pcard-chips {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
-    margin: 20px 0 0;
+    margin: 10px 0 0;
     padding: 0;
     list-style: none;
   }

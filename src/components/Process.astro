@@ -14,8 +14,8 @@ const adrs = ['docs/adr/', '├─ 0001-monorepo.md', '├─ 0004-datos-en-la-u
         <p class="eyebrow">Cómo trabajo</p>
         <h2 id="proceso-title">La IA acelera. El criterio es mío.</h2>
         <p class="section-lead">
-          Trabajo con agentes de IA cada día, dentro de un proceso de ingeniería: decido por escrito, reviso cada cambio y
-          protejo el código y los datos antes de que nada llegue a producción.
+          Los agentes de IA me hacen más rápido, pero trabajan dentro de un proceso de ingeniería: decido por escrito, reviso
+          cada cambio y protejo el código y los datos antes de que nada llegue a producción.
         </p>
       </div>
       <a class="btn btn-light" href="/como-trabajo/">Ver el proceso completo <span aria-hidden="true">→</span></a>
@@ -24,7 +24,7 @@ const adrs = ['docs/adr/', '├─ 0001-monorepo.md', '├─ 0004-datos-en-la-u
     <div class="bento">
       <article class="tile tile-wide reveal">
         <p class="kicker">Privacidad</p>
-        <h3>Los agentes no ven lo que no deben.</h3>
+        <h3>Lo privado, fuera de su alcance.</h3>
         <p>
           Los secretos no entran en el repo, ni en el chat, ni en el cliente. Los permisos impiden leer <code>.env</code> y
           unos hooks bloquean lo peligroso antes de que ocurra.
@@ -41,14 +41,14 @@ const adrs = ['docs/adr/', '├─ 0001-monorepo.md', '├─ 0004-datos-en-la-u
 
       <article class="tile reveal">
         <p class="kicker">Revisión</p>
-        <h3>Nada entra sin revisar.</h3>
-        <p>Cada PR pasa tests y análisis, dos agentes revisores de solo lectura y, al final, mi revisión.</p>
+        <h3>Tres filtros antes de main.</h3>
+        <p>Cada PR pasa por tests y análisis automáticos, por dos agentes de solo lectura y, al final, por mí.</p>
         <div class="tile-visual"><Checks /></div>
       </article>
 
       <article class="tile reveal">
         <p class="kicker">Decisiones</p>
-        <h3>Primero se decide, luego se programa.</h3>
+        <h3>Por escrito, antes del código.</h3>
         <p>Cada decisión de arquitectura queda en un ADR, y el estado del proyecto en un documento que cada sesión lee al empezar.</p>
         <pre class="tree" aria-label="Carpeta de decisiones de arquitectura (ADR)">{adrs.join('\n')}</pre>
       </article>
@@ -57,28 +57,28 @@ const adrs = ['docs/adr/', '├─ 0001-monorepo.md', '├─ 0004-datos-en-la-u
         <p class="kicker">Flujo de git</p>
         <h3>Ramas cortas, PR y versiones automáticas.</h3>
         <p>
-          Trunk-based, Conventional Commits y release-please para el changelog y las versiones. Nunca se commitea
-          en <code>main</code>, y lo nuevo sale detrás de un feature flag apagado.
+          Trunk-based, Conventional Commits y release-please para el changelog y las versiones. Nunca se hace commit
+          directo en <code>main</code>, y lo nuevo sale oculto tras un feature flag.
         </p>
         <div class="tile-visual"><GitFlow /></div>
       </article>
 
       <article class="tile tile-wide reveal">
         <p class="kicker">Agentes de IA</p>
-        <h3>Un orquestador y especialistas.</h3>
+        <h3>Tareas grandes, en paralelo.</h3>
         <p>
-          Me he especializado en Claude Code. Un orquestador reparte la tarea entre subagentes que exploran, implementan,
-          revisan y verifican en paralelo, cada uno con su contexto y solo las herramientas que necesita.
+          Con Claude Code, un orquestador reparte cada tarea entre subagentes que exploran, implementan, revisan y verifican
+          a la vez, cada uno con lo justo para su papel.
         </p>
         <div class="tile-visual"><Diagram /></div>
       </article>
 
       <article class="tile reveal">
         <p class="kicker">Workflows</p>
-        <h3>Revisiones en paralelo, con contraprueba.</h3>
+        <h3>Cada hallazgo, a prueba.</h3>
         <p>
-          Para cambios grandes lanzo un workflow: varios agentes revisan desde ángulos distintos y otro intenta tumbar cada
-          hallazgo. Solo me llega lo que se confirma.
+          En los cambios grandes, varios agentes revisan desde ángulos distintos y otro intenta tumbar lo que encuentran.
+          Solo me llega lo que se confirma.
         </p>
       </article>
     </div>

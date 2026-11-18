@@ -8,7 +8,7 @@ export const profile = {
   location: 'Toledo, España',
   availability: 'Disponible para nuevos proyectos',
   description:
-    'Soy Ángel Carrascosa, Senior Software Engineer y ex-CTO de MixReal AI. Construyo apps, webs y productos de IA de la primera idea a producción, con agentes de IA y un proceso de revisión, seguridad y privacidad propio.',
+    'Soy Ángel Carrascosa, Senior Software Engineer y ex-CTO de MixReal AI. Construyo apps, webs y productos de IA de la primera idea a producción, con un proceso propio de revisión, seguridad y privacidad.',
   links: {
     linkedin: 'https://www.linkedin.com/in/angel-carrascosa-nombela-ab7b72151/',
     github: 'https://github.com/Acarfilms',
@@ -42,8 +42,8 @@ export const brands = [
 ];
 
 export const stats = [
-  { value: '4 años', label: 'dirigiendo la tecnología, en MixReal AI y en IABeauty' },
-  { value: `${brands.length} marcas`, label: 'con software, IA y experiencias inmersivas de MixReal' },
+  { value: '4 años', label: 'liderando la tecnología de MixReal AI e IABeauty' },
+  { value: `${brands.length} marcas`, label: 'entre los clientes de MixReal AI' },
   { value: '10.000+', label: 'personas usan hoy la plataforma de IA de MixReal' },
   { value: 'Web + móvil', label: 'apps en producción con React, Next.js, Flutter y React Native' },
 ];
@@ -53,21 +53,21 @@ export const experience = [
     period: '2026',
     role: 'Senior Software Engineer',
     place: 'IABeauty · Remoto',
-    note: 'Llevé todo el desarrollo y las decisiones técnicas de un SaaS para salones de belleza: web en Next.js y apps en Flutter y React Native.',
+    note: 'Una plataforma de gestión para salones de belleza: web en Next.js y apps en Flutter y React Native, de la arquitectura a producción.',
     href: '/proyectos/iabeauty/',
   },
   {
     period: '2023 – 2025',
     role: 'Cofundador y CTO',
     place: 'MixReal AI · Madrid',
-    note: 'Entré como programador y acabé dirigiendo la tecnología: equipo, hoja de ruta y arquitectura. Construí el SaaS de IA generativa de la compañía, software para tótems y eventos, y realidad aumentada, virtual y mixta para marcas.',
+    note: 'Dirigí el equipo, la hoja de ruta y la arquitectura de todo lo que construíamos, del producto propio a los proyectos para clientes.',
     href: '/proyectos/mixreal/',
   },
   {
     period: '2022',
     role: 'Modelador y texturizador 3D',
     place: 'Innovae · Usurbil',
-    note: 'Modelado y texturizado 3D, junto a un curso de Unity para realidad virtual de 100 horas.',
+    note: 'Además, completé un curso de Unity para realidad virtual de 100 horas.',
   },
   {
     period: '2020 – 2021',

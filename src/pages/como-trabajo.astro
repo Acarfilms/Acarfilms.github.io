@@ -41,7 +41,7 @@ const claudeMd = `# CLAUDE.md
 1. Sigue los patrones que ya existen.
 2. Si ves un atajo, propónlo y espera.
 3. Permisos siempre en servidor, nunca en cliente.
-4. Nunca commitees en main.
+4. Nunca hagas commit en main.
 
 ## Terminado significa
 - \`pnpm verify\` en verde y tests para lo nuevo
@@ -119,10 +119,10 @@ const servers = [
   <main id="main">
     <header class="page-head wrap">
       <p class="eyebrow">Cómo trabajo</p>
-      <h1>La IA acelera. El criterio es mío.</h1>
+      <h1>Cinco fases, de la decisión a la entrega.</h1>
       <p class="lead">
-        Uso agentes de IA a diario, pero el proceso es de ingeniería de siempre: decido por escrito, trabajo en ramas
-        cortas, reviso cada cambio y protejo el código y los datos. Los agentes trabajan dentro de ese marco, no al revés.
+        Uso agentes de IA a diario, pero el proceso es de ingeniería de siempre: decido por escrito, avanzo en ramas
+        cortas, reviso cada cambio y protejo el código y los datos. Los agentes se adaptan a ese marco, no al revés.
       </p>
       <nav class="steps" aria-label="Fases del proceso">
         <ol>
@@ -158,7 +158,7 @@ const servers = [
             con el contexto, las alternativas que descarté y sus consecuencias.
           </p>
           <p>
-            El estado del proyecto vive en un documento que cada sesión, mía o de un agente, lee al empezar. La
+            El estado del proyecto está en un documento que cada sesión, mía o de un agente, lee al empezar. La
             planificación del equipo va por sprints en Jira o Notion.
           </p>
         </div>
@@ -171,11 +171,11 @@ const servers = [
           <p class="eyebrow">02 · Construir</p>
           <h2>Un orquestador y especialistas.</h2>
           <p>
-            Me he especializado en Claude Code. Para una tarea grande, un orquestador la divide y lanza subagentes en
-            paralelo, cada uno con un papel, un contexto limpio y solo las herramientas que necesita: uno explora el
+            Mi herramienta principal es Claude Code. Para una tarea grande, un orquestador la divide y lanza subagentes
+            en paralelo, cada uno con un papel, un contexto limpio y solo las herramientas que necesita: uno explora el
             código, otro implementa, otro revisa y otro verifica.
           </p>
-          <p>Así una tarea de horas avanza en paralelo sin que yo pierda el control de lo que entra.</p>
+          <p>Así, una tarea de horas avanza mucho más rápido sin que yo pierda el control de lo que entra.</p>
         </div>
         <div class="ch-visual dark-panel"><Diagram /></div>
       </section>
@@ -278,7 +278,7 @@ const servers = [
           <p class="eyebrow">04 · Proteger</p>
           <h2>Los agentes no ven lo que no deben.</h2>
           <p>
-            La configuración de Claude Code vive en el repo, y lo personal queda fuera de git. Los permisos impiden
+            La configuración de Claude Code se versiona en el repo, y lo personal queda fuera de git. Los permisos impiden
             leer <code>.env</code> y la carpeta de secretos, y los hooks bloquean editar secretos, meter claves de servidor en el
             cliente, reescribir historia o tocar la base de datos remota fuera de la CI.
           </p>
@@ -314,7 +314,7 @@ const servers = [
       <section class="chapter reveal" id="entregar">
         <div class="ch-text">
           <p class="eyebrow">05 · Entregar</p>
-          <h2>Ramas cortas y versiones automáticas.</h2>
+          <h2>Entregas pequeñas y versiones automáticas.</h2>
           <p>
             Trabajo trunk-based: ramas cortas, una PR por cambio y squash al fusionar. Los commits siguen Conventional
             Commits y release-please genera el changelog, las versiones y las etiquetas.
@@ -333,7 +333,7 @@ const servers = [
       <section class="closing reveal">
         <h2>Más rápido, sin bajar el listón.</h2>
         <p>
-          Cada cambio llega decidido, revisado, protegido y probado. Y como todo vive en el repositorio, el método escala a
+          Cada cambio llega decidido, revisado, protegido y probado. Y como todo está en el repositorio, el método escala a
           un equipo: quien llega hereda las mismas reglas, los mismos agentes y las mismas comprobaciones.
         </p>
         <div class="actions">
