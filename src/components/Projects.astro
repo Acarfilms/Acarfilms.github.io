@@ -17,47 +17,61 @@ const vitrine = getProject('vitrine');
       </p>
     </header>
 
-    <a class="card pcard pcard-feature reveal" href={`/proyectos/${mixreal.slug}/`}>
+    <a class="card pcard pcard-feature reveal" href={`/proyectos/${iabeauty.slug}/`}>
       <div class="pcard-text">
-        <p class="pcard-meta"><strong>{mixreal.name}</strong> · {mixreal.role} · {mixreal.period}</p>
-        <h3>{mixreal.title}</h3>
-        <p class="pcard-summary">{mixreal.summary}</p>
-        <p class="pcard-chips-label" id="mixreal-proyectos">Proyectos en MixReal</p>
-        <ul class="pcard-chips" aria-labelledby="mixreal-proyectos">
-          {mixreal.highlights?.map((h) => <li>{h}</li>)}
-        </ul>
-        <span class="more">Ver los proyectos de MixReal <span aria-hidden="true">→</span></span>
+        <p class="pcard-meta"><strong>{iabeauty.name}</strong> · {iabeauty.role} · {iabeauty.period}</p>
+        <h3>{iabeauty.title}</h3>
+        <p class="pcard-summary">{iabeauty.summary}</p>
+        <dl class="pcard-figures">
+          {
+            iabeauty.figures?.map((f) => (
+              <div>
+                <dt>{f.label}</dt>
+                <dd>{f.value}</dd>
+              </div>
+            ))
+          }
+        </dl>
+        <span class="more">Ver el proyecto <span aria-hidden="true">→</span></span>
       </div>
-      <div class="collage" aria-hidden="true">
-        <div class="c-main">
-          <video
-            src="/img/mixreal/totem-heineken.mp4"
-            poster="/img/mixreal/totem-heineken.webp"
-            width="540"
-            height="960"
-            autoplay
-            muted
-            loop
-            playsinline
-            preload="metadata"></video>
-          <img src="/img/mixreal/totem-heineken.webp" alt="" width="540" height="960" loading="lazy" />
+      <div class="feature-visual" aria-hidden="true">
+        <div class="v-iabeauty">
+          <img class="v-photo" src="/img/iabeauty/salon-barberia.webp" alt="" width="1080" height="1349" loading="lazy" />
+          <img class="v-device" src="/img/iabeauty/app-salon.webp" alt="" width="1400" height="1738" loading="lazy" />
         </div>
-        <img src="/img/mixreal/mr-industria.webp" alt="" width="1280" height="720" loading="lazy" />
-        <img src="/img/mixreal/vr-avatares-playa.webp" alt="" width="1280" height="720" loading="lazy" />
       </div>
     </a>
 
     <div class="pcard-row">
-      <a class="card pcard reveal" href={`/proyectos/${iabeauty.slug}/`}>
-        <div class="pcard-visual v-iabeauty" aria-hidden="true">
-          <img class="v-photo" src="/img/iabeauty/salon-barberia.webp" alt="" width="1080" height="1349" loading="lazy" />
-          <img class="v-device" src="/img/iabeauty/app-salon.webp" alt="" width="1400" height="1738" loading="lazy" />
+      <a class="card pcard reveal" href={`/proyectos/${mixreal.slug}/`}>
+        <div class="pcard-visual v-mixreal" aria-hidden="true">
+          <div class="collage">
+            <div class="c-main">
+              <video
+                src="/img/mixreal/totem-heineken.mp4"
+                poster="/img/mixreal/totem-heineken.webp"
+                width="540"
+                height="960"
+                autoplay
+                muted
+                loop
+                playsinline
+                preload="metadata"></video>
+              <img src="/img/mixreal/totem-heineken.webp" alt="" width="540" height="960" loading="lazy" />
+            </div>
+            <img src="/img/mixreal/mr-industria.webp" alt="" width="1280" height="720" loading="lazy" />
+            <img src="/img/mixreal/vr-avatares-playa.webp" alt="" width="1280" height="720" loading="lazy" />
+          </div>
         </div>
         <div class="pcard-text">
-          <p class="pcard-meta"><strong>{iabeauty.name}</strong> · {iabeauty.role} · {iabeauty.period}</p>
-          <h3>{iabeauty.title}</h3>
-          <p class="pcard-summary">{iabeauty.summary}</p>
-          <span class="more">Ver el proyecto <span aria-hidden="true">→</span></span>
+          <p class="pcard-meta"><strong>{mixreal.name}</strong> · {mixreal.role} · {mixreal.period}</p>
+          <h3>{mixreal.title}</h3>
+          <p class="pcard-summary">{mixreal.summary}</p>
+          <p class="pcard-chips-label" id="mixreal-proyectos">Proyectos en MixReal</p>
+          <ul class="pcard-chips" aria-labelledby="mixreal-proyectos">
+            {mixreal.highlights?.map((h) => <li>{h}</li>)}
+          </ul>
+          <span class="more">Ver los proyectos de MixReal <span aria-hidden="true">→</span></span>
         </div>
       </a>
 
@@ -94,6 +108,7 @@ const vitrine = getProject('vitrine');
 
   .pcard-text {
     display: flex;
+    flex: 1;
     flex-direction: column;
     padding: clamp(24px, 3.4vw, 44px);
   }
@@ -149,8 +164,10 @@ const vitrine = getProject('vitrine');
     background: var(--chip);
   }
 
+  /* Pinned to the bottom so the links line up across a row. */
   .more {
-    margin-top: 22px;
+    margin-top: auto;
+    padding-top: 22px;
     font-size: 16px;
     font-weight: 500;
     color: var(--link);
@@ -161,7 +178,33 @@ const vitrine = getProject('vitrine');
     text-underline-offset: 3px;
   }
 
-  /* MixReal */
+  .pcard-figures {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px 36px;
+    margin: 24px 0 0;
+  }
+
+  .pcard-figures div {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 4px;
+  }
+
+  .pcard-figures dd {
+    margin: 0;
+    font-size: clamp(32px, 3.4vw, 44px);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+
+  .pcard-figures dt {
+    font-size: 14px;
+    color: var(--text-2);
+  }
+
+  /* Lead project */
   .pcard-feature {
     display: grid;
     grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
@@ -172,14 +215,30 @@ const vitrine = getProject('vitrine');
     font-size: clamp(30px, 3.8vw, 48px);
   }
 
+  .feature-visual {
+    height: 100%;
+    padding: clamp(16px, 2.4vw, 28px) clamp(16px, 2.4vw, 28px) clamp(16px, 2.4vw, 28px) 0;
+  }
+
+  .feature-visual .v-iabeauty {
+    height: 100%;
+    min-height: 420px;
+    border-radius: 20px;
+    overflow: hidden;
+  }
+
+  /* MixReal: a small collage of real project footage. */
+  .v-mixreal {
+    padding: 14px 14px 0;
+  }
+
   .collage {
     display: grid;
-    grid-template-columns: 1.4fr 1fr;
+    grid-template-columns: 1.15fr 1fr;
     grid-template-rows: 1fr 1fr;
-    gap: 10px;
-    padding: clamp(16px, 2.4vw, 28px) clamp(16px, 2.4vw, 28px) clamp(16px, 2.4vw, 28px) 0;
+    gap: 8px;
+    width: 100%;
     height: 100%;
-    min-height: 360px;
   }
 
   .collage img,
@@ -189,7 +248,7 @@ const vitrine = getProject('vitrine');
     height: 100%;
     min-height: 0;
     object-fit: cover;
-    border-radius: 18px;
+    border-radius: 14px;
     background: var(--card-raised);
   }
 
@@ -297,12 +356,16 @@ const vitrine = getProject('vitrine');
       grid-template-columns: minmax(0, 1fr);
     }
 
-    .collage {
+    .feature-visual {
       order: -1;
+      height: auto;
+      padding: 16px 16px 0;
+    }
+
+    .feature-visual .v-iabeauty {
       min-height: 0;
       height: auto;
-      aspect-ratio: 16 / 10;
-      padding: 16px 16px 0;
+      aspect-ratio: 16 / 11;
     }
   }
 

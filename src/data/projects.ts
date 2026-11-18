@@ -36,6 +36,8 @@ export type Project = {
   links: { label: string; href: string }[];
   /** Lines of work inside the project, shown as chips on the home card. */
   highlights?: string[];
+  /** Headline numbers, shown on the home card. */
+  figures?: { value: string; label: string }[];
   hero: Media[];
   heroTint?: string;
   /** Photo with a device in front of it, on a solid brand colour. Replaces `hero`. */
@@ -77,6 +79,93 @@ const vt = (file: string, alt: string, h: number, themed = false): Media => ({
 });
 
 export const projects: Project[] = [
+  {
+    slug: 'iabeauty',
+    name: 'IABeauty',
+    role: 'Senior Software Engineer',
+    period: '2026',
+    summary:
+      'Completo y en producción: agenda, reservas online, avisos por WhatsApp y análisis del negocio, con la web en React y Next.js y las apps en Flutter y React Native.',
+    title: 'Un SaaS para gestionar salones de belleza.',
+    lead: 'Me incorporé a IABeauty en 2026 como Senior Software Engineer. Aunque el cargo no era de CTO, asumí todo el desarrollo y las decisiones técnicas del producto: la arquitectura, la web en React y Next.js y las apps móviles en Flutter y React Native. Hoy lo usan más de 600 salones, y su app de clientes supera las 20.000 descargas entre App Store y Google Play.',
+    figures: [
+      { value: '600+', label: 'salones lo usan hoy' },
+      { value: '20.000+', label: 'descargas de la app de clientes' },
+    ],
+    facts: [
+      { label: 'Rol', value: 'Senior Software Engineer, al frente de la tecnología' },
+      { label: 'Periodo', value: 'Enero – noviembre de 2026' },
+      { label: 'Modalidad', value: 'Remoto, jornada completa' },
+      { label: 'Plataformas', value: 'Web, iOS y Android' },
+    ],
+    tags: ['React', 'Next.js', 'Flutter', 'React Native', 'TypeScript', 'REST', 'GraphQL'],
+    links: [{ label: 'iabeauty.es', href: 'https://iabeauty.es' }],
+    hero: [],
+    heroStage: {
+      photo: { ...iab('salon-barberia', 'Un barbero prepara a un cliente en una barbería con luz cálida.', 1080, 1349), pos: 'center 30%' },
+      device: iab('app-salon', 'App de IABeauty en dos iPhone: la agenda del día y las estadísticas del salón.', 1400, 1738, 'bare'),
+      tint: '#01241B',
+    },
+    blocks: [
+      {
+        kind: 'text',
+        title: 'El producto',
+        body: [
+          'IABeauty reúne lo que necesita un salón para funcionar: agenda, ficha de clientes, recordatorios automáticos por WhatsApp, reservas online las 24 horas, control horario del equipo, marketing y análisis del negocio.',
+          'El equipo trabaja desde la app y la web, y los clientes tienen su propia app para reservar.',
+        ],
+      },
+      {
+        kind: 'stats',
+        items: [
+          { value: '600+', label: 'salones trabajan con IABeauty' },
+          { value: '20.000+', label: 'descargas de la app de clientes en App Store y Google Play' },
+        ],
+      },
+      {
+        kind: 'feature',
+        eyebrow: 'App del salón',
+        title: 'La agenda del día, en el bolsillo.',
+        body: [
+          'Las citas de cada profesional, la ficha de cada cliente y las cifras del salón, con las mismas funciones en iOS y Android.',
+          'Todo se sincroniza en tiempo real con la web: si recepción mueve una cita, el móvil de la estilista ya lo sabe.',
+        ],
+        media: [iab('peluqueria', 'Una peluquera trabajando con una clienta en el salón.', 736, 1104)],
+      },
+      {
+        kind: 'feature',
+        eyebrow: 'Clientes',
+        title: 'Menos citas perdidas, más reservas.',
+        body: [
+          'Avisos por WhatsApp antes de cada cita y una app para que los clientes encuentren su salón, reserven y repitan servicio en un toque.',
+        ],
+        media: [
+          iab('recordatorio', 'Recordatorio de cita en la pantalla de bloqueo de un iPhone.', 1000, 1273, 'bare'),
+          iab('app-clientes', 'App de clientes de IABeauty: mapa de salones y reserva.', 1400, 1521, 'bare'),
+        ],
+        tint: '#01241B',
+        flip: true,
+      },
+      {
+        kind: 'feature',
+        eyebrow: 'Panel web',
+        title: 'El negocio, de un vistazo.',
+        body: ['Facturación, servicios y productos desde el navegador, con informes para entender cómo va el salón mes a mes.'],
+        media: [iab('panel-facturacion', 'Panel web de IABeauty con la gráfica de facturación mensual.', 1024, 663, 'browser')],
+      },
+      {
+        kind: 'text',
+        title: 'Mi trabajo',
+        points: [
+          'Elección del stack, de las herramientas y de las prioridades técnicas.',
+          'Arquitectura y desarrollo full stack de la web con React y Next.js, cuidando el SEO y los tiempos de carga.',
+          'Apps multiplataforma en Flutter y React Native, sincronizadas al instante con la web.',
+          'Patrones de diseño limpios, gestión de estado compleja e integración de APIs REST y GraphQL.',
+          'Scrum y Kanban junto a producto y diseño, y revisión de código en cada cambio.',
+        ],
+      },
+    ],
+  },
   {
     slug: 'mixreal',
     name: 'MixReal AI',
@@ -215,82 +304,6 @@ export const projects: Project[] = [
         title: 'I+D con el CDTI',
         body: [
           'MixReal desarrolló el proyecto «Constructor de proyectos basados en Realidad Mixta de forma escalable y haciendo uso de Inteligencia Artificial», subvencionado por el CDTI. Unía las dos líneas en las que trabajaba mi equipo: la realidad mixta y la IA.',
-        ],
-      },
-    ],
-  },
-  {
-    slug: 'iabeauty',
-    name: 'IABeauty',
-    role: 'Senior Software Engineer',
-    period: '2026',
-    summary:
-      'Agenda, reservas online y avisos por WhatsApp para salones, con la web en React y Next.js y las apps en Flutter y React Native.',
-    title: 'Un SaaS para gestionar salones de belleza.',
-    lead: 'Me incorporé a IABeauty en 2026 como Senior Software Engineer. Aunque el cargo no era de CTO, asumí todo el desarrollo y las decisiones técnicas del producto: la arquitectura, la web en React y Next.js y las apps móviles en Flutter y React Native.',
-    facts: [
-      { label: 'Rol', value: 'Senior Software Engineer, al frente de la tecnología' },
-      { label: 'Periodo', value: 'Enero – noviembre de 2026' },
-      { label: 'Modalidad', value: 'Remoto, jornada completa' },
-      { label: 'Plataformas', value: 'Web, iOS y Android' },
-    ],
-    tags: ['React', 'Next.js', 'Flutter', 'React Native', 'TypeScript', 'REST', 'GraphQL'],
-    links: [{ label: 'iabeauty.es', href: 'https://iabeauty.es' }],
-    hero: [],
-    heroStage: {
-      photo: { ...iab('salon-barberia', 'Un barbero prepara a un cliente en una barbería con luz cálida.', 1080, 1349), pos: 'center 30%' },
-      device: iab('app-salon', 'App de IABeauty en dos iPhone: la agenda del día y las estadísticas del salón.', 1400, 1738, 'bare'),
-      tint: '#01241B',
-    },
-    blocks: [
-      {
-        kind: 'text',
-        title: 'El producto',
-        body: [
-          'IABeauty reúne lo que necesita un salón para funcionar: agenda, ficha de clientes, recordatorios automáticos por WhatsApp, reservas online las 24 horas, control horario del equipo, marketing y análisis del negocio.',
-          'El equipo trabaja desde la app y la web, y los clientes tienen su propia app para reservar.',
-        ],
-      },
-      {
-        kind: 'feature',
-        eyebrow: 'App del salón',
-        title: 'La agenda del día, en el bolsillo.',
-        body: [
-          'Las citas de cada profesional, la ficha de cada cliente y las cifras del salón, con las mismas funciones en iOS y Android.',
-          'Todo se sincroniza en tiempo real con la web: si recepción mueve una cita, el móvil de la estilista ya lo sabe.',
-        ],
-        media: [iab('peluqueria', 'Una peluquera trabajando con una clienta en el salón.', 736, 1104)],
-      },
-      {
-        kind: 'feature',
-        eyebrow: 'Clientes',
-        title: 'Menos citas perdidas, más reservas.',
-        body: [
-          'Avisos por WhatsApp antes de cada cita y una app para que los clientes encuentren su salón, reserven y repitan servicio en un toque.',
-        ],
-        media: [
-          iab('recordatorio', 'Recordatorio de cita en la pantalla de bloqueo de un iPhone.', 1000, 1273, 'bare'),
-          iab('app-clientes', 'App de clientes de IABeauty: mapa de salones y reserva.', 1400, 1521, 'bare'),
-        ],
-        tint: '#01241B',
-        flip: true,
-      },
-      {
-        kind: 'feature',
-        eyebrow: 'Panel web',
-        title: 'El negocio, de un vistazo.',
-        body: ['Facturación, servicios y productos desde el navegador, con informes para entender cómo va el salón mes a mes.'],
-        media: [iab('panel-facturacion', 'Panel web de IABeauty con la gráfica de facturación mensual.', 1024, 663, 'browser')],
-      },
-      {
-        kind: 'text',
-        title: 'Mi trabajo',
-        points: [
-          'Elección del stack, de las herramientas y de las prioridades técnicas.',
-          'Arquitectura y desarrollo full stack de la web con React y Next.js, cuidando el SEO y los tiempos de carga.',
-          'Apps multiplataforma en Flutter y React Native, sincronizadas al instante con la web.',
-          'Patrones de diseño limpios, gestión de estado compleja e integración de APIs REST y GraphQL.',
-          'Scrum y Kanban junto a producto y diseño, y revisión de código en cada cambio.',
         ],
       },
     ],

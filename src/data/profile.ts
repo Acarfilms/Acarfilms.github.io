@@ -43,9 +43,9 @@ export const brands = [
 
 export const stats = [
   { value: '4 años', label: 'liderando la tecnología de MixReal AI e IABeauty' },
-  { value: `${brands.length} marcas`, label: 'entre los clientes de MixReal AI' },
-  { value: '10.000+', label: 'personas usan hoy la plataforma de IA de MixReal' },
-  { value: 'Web + móvil', label: 'apps en producción con React, Next.js, Flutter y React Native' },
+  { value: '600+', label: 'salones gestionan su negocio con IABeauty' },
+  { value: '20.000+', label: 'descargas de la app de clientes de IABeauty' },
+  { value: '10.000+', label: 'personas usan la plataforma de IA de MixReal' },
 ];
 
 export const experience = [
