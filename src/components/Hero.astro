@@ -6,7 +6,7 @@ import { profile, heroWidgets } from '../data/profile';
 <section class="hero" id="top">
   <div class="wrap">
     <p class="eyebrow">{profile.headline}</p>
-    <h1>Hola, soy Ángel Carrascosa.</h1>
+    <h1>Hola,<br /> <span class="h1-name">soy Ángel Carrascosa.</span></h1>
 
     <div class="hero-row">
       <p class="hero-lead">
@@ -57,12 +57,22 @@ import { profile, heroWidgets } from '../data/profile';
     padding-block: clamp(116px, 13vw, 150px) clamp(56px, 7vw, 88px);
   }
 
+  /* The heading scales with the column so the name always fits on one line. */
+  .wrap {
+    container-type: inline-size;
+  }
+
   h1 {
     margin: 12px 0 0;
-    font-size: clamp(52px, 9.2vw, 116px);
+    font-size: clamp(32px, 8.2vw, 106px);
+    font-size: min(106px, calc(100cqi / 10.7));
     line-height: 0.98;
     letter-spacing: -0.045em;
     font-weight: 700;
+  }
+
+  .h1-name {
+    white-space: nowrap;
   }
 
   .hero-row {
@@ -84,6 +94,13 @@ import { profile, heroWidgets } from '../data/profile';
 
   .hero-lead span {
     color: var(--text-3);
+  }
+
+  /* On phones the name sets the size, so the lead steps down to keep the hierarchy. */
+  @media (max-width: 600px) {
+    .hero-lead {
+      font-size: 21px;
+    }
   }
 
   .hero-side {
