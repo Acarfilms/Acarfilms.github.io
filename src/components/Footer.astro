@@ -1,0 +1,43 @@
+---
+import { profile } from '../data/profile';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="wrap footer-row">
+    <p>© {year} {profile.fullName}</p>
+    <p>
+      Hecho con Astro y publicado en GitHub Pages.
+      <a href={profile.links.source} target="_blank" rel="noopener">Ver el código <span aria-hidden="true">↗</span></a>
+    </p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    padding-block: 24px calc(24px + env(safe-area-inset-bottom, 0px));
+    border-top: 0.5px solid var(--line);
+    font-size: 13px;
+    color: var(--text-3);
+  }
+
+  .footer-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px 24px;
+  }
+
+  .footer p {
+    margin: 0;
+  }
+
+  .footer a {
+    color: var(--text-2);
+  }
+
+  .footer a:hover {
+    color: var(--text);
+  }
+</style>

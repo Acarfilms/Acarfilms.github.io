@@ -1,0 +1,106 @@
+---
+// The gates a pull request goes through before it reaches main.
+const checks = [
+  ['Typecheck, lint y tests', 'verify'],
+  ['Secretos, SAST y dependencias', 'gitleaks · Semgrep · OSV'],
+  ['Revisor de seguridad', 'agente de solo lectura'],
+  ['Guardián de arquitectura', 'agente de solo lectura'],
+];
+---
+
+<div class="pr" role="img" aria-label="Una pull request pasa cuatro comprobaciones automáticas (tests, análisis de secretos y dependencias, revisor de seguridad y guardián de arquitectura) y queda pendiente de mi revisión antes de fusionarse.">
+  <div aria-hidden="true">
+    <p class="pr-title"><span class="pr-badge">PR</span> feat(agenda): reservas con pago por adelantado</p>
+    <ul>
+      {
+        checks.map(([name, detail]) => (
+          <li>
+            <span class="ok">✓</span>
+            <span class="name">{name}</span>
+            <span class="detail">{detail}</span>
+          </li>
+        ))
+      }
+      <li class="me">
+        <span class="wait"></span>
+        <span class="name">Mi revisión</span>
+        <span class="detail">leo el diff y decido</span>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<style>
+  .pr {
+    padding: 16px 18px 18px;
+    border-radius: 16px;
+    background: #000;
+    border: 0.5px solid rgb(255 255 255 / 0.1);
+    color: #f5f5f7;
+  }
+
+  .pr-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 12px;
+    font: 13px/1.4 var(--mono);
+    color: rgb(255 255 255 / 0.85);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .pr-badge {
+    padding: 2px 8px;
+    border-radius: 999px;
+    font: 600 11px var(--font);
+    color: #fff;
+    background: #30d158;
+  }
+
+  ul {
+    display: grid;
+    gap: 2px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    display: grid;
+    grid-template-columns: 18px minmax(0, 1fr);
+    align-items: baseline;
+    gap: 0 10px;
+    padding: 7px 0;
+    border-top: 0.5px solid rgb(255 255 255 / 0.08);
+  }
+
+  .name {
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .detail {
+    grid-column: 2;
+    font-size: 12px;
+    color: rgb(255 255 255 / 0.45);
+  }
+
+  .ok {
+    color: #30d158;
+    font-size: 14px;
+  }
+
+  .wait {
+    width: 10px;
+    height: 10px;
+    margin-top: 3px;
+    border-radius: 50%;
+    border: 2px solid #ffd60a;
+  }
+
+  .me .name {
+    color: #ffd60a;
+  }
+</style>

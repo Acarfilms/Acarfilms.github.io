@@ -1,0 +1,91 @@
+---
+import Icon from './Icon.astro';
+import { stack } from '../data/profile';
+---
+
+<section class="section section-alt" id="stack" aria-labelledby="stack-title">
+  <div class="wrap">
+    <header class="section-head">
+      <p class="eyebrow">Stack</p>
+      <h2 id="stack-title">Con lo que trabajo cada día.</h2>
+    </header>
+
+    <div class="specs">
+      {
+        stack.map((row) => (
+          <div class="card spec reveal">
+            <h3>{row.label}</h3>
+            <ul>
+              {row.items.map(([name, slug]) => (
+                <li>
+                  {slug && <Icon slug={slug} size={18} />}
+                  {name}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .specs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--grid-gap);
+  }
+
+  .spec {
+    padding: clamp(22px, 2.6vw, 30px);
+  }
+
+  .spec:last-child {
+    grid-column: 1 / -1;
+  }
+
+  h3 {
+    margin: 0 0 18px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-2);
+  }
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 500;
+    background: var(--card-raised);
+  }
+
+  li :global(.icon) {
+    color: var(--text-2);
+    flex: none;
+  }
+
+  @media (max-width: 900px) {
+    .specs {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .specs {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

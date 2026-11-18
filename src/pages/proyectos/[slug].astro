@@ -1,0 +1,429 @@
+---
+import Base from '../../layouts/Base.astro';
+import Nav from '../../components/Nav.astro';
+import Shot from '../../components/Shot.astro';
+import CaseBlock from '../../components/CaseBlock.astro';
+import Contact from '../../components/Contact.astro';
+import Footer from '../../components/Footer.astro';
+import { projects, type Project } from '../../data/projects';
+
+export function getStaticPaths() {
+  return projects.map((project, i) => ({
+    params: { slug: project.slug },
+    props: { project, next: projects[(i + 1) % projects.length] },
+  }));
+}
+
+type Props = { project: Project; next: Project };
+const { project, next } = Astro.props;
+const stage = project.heroStage;
+const heroKind = stage
+  ? 'stage'
+  : project.hero.length === 2
+    ? 'strip'
+    : project.hero.length > 2
+      ? 'collage'
+      : project.heroTint
+        ? 'tinted'
+        : 'single';
+---
+
+<Base title={`${project.name} · Ángel Carrascosa`} description={project.lead}>
+  <Nav />
+  <main id="main">
+    <article>
+      <header class="case-head wrap">
+        <a class="back" href="/#proyectos"><span aria-hidden="true">←</span> Todos los proyectos</a>
+        <p class="eyebrow">{project.name} · {project.role} · {project.period}</p>
+        <h1>{project.title}</h1>
+        <p class="lead">{project.lead}</p>
+
+        <dl class="facts">
+          {
+            project.facts.map((f) => (
+              <div>
+                <dt>{f.label}</dt>
+                <dd>{f.value}</dd>
+              </div>
+            ))
+          }
+        </dl>
+
+        <div class="head-foot">
+          <ul class="tags" aria-label="Tecnologías">
+            {project.tags.map((t) => <li>{t}</li>)}
+          </ul>
+          <div class="actions">
+            {
+              project.links.map((l, i) => (
+                <a class:list={['btn', { 'btn-primary': i === 0 }]} href={l.href} target="_blank" rel="noopener">
+                  {l.label} <span aria-hidden="true">↗</span>
+                </a>
+              ))
+            }
+          </div>
+        </div>
+      </header>
+
+      <div class="wrap">
+        {
+          stage ? (
+            <div class="case-hero case-hero-stage" style={`--tint: ${stage.tint}`}>
+              <div class="stage-photo">
+                <img
+                  src={stage.photo.src}
+                  alt={stage.photo.alt}
+                  width={stage.photo.w}
+                  height={stage.photo.h}
+                  style={stage.photo.pos ? `object-position: ${stage.photo.pos}` : undefined}
+                  fetchpriority="high"
+                />
+              </div>
+              <img
+                class="stage-device"
+                src={stage.device.src}
+                alt={stage.device.alt}
+                width={stage.device.w}
+                height={stage.device.h}
+                fetchpriority="high"
+              />
+            </div>
+          ) : (
+            <div
+              class:list={['case-hero', `case-hero-${heroKind}`]}
+              style={project.heroTint ? `--tint: ${project.heroTint}` : undefined}
+            >
+              {project.hero.map((m) =>
+                heroKind === 'strip' ? (
+                  <div class="strip-item" style={`flex-grow: ${(m.w / m.h).toFixed(4)}; aspect-ratio: ${m.w} / ${m.h}`}>
+                    <Shot media={m} eager fill />
+                  </div>
+                ) : (
+                  <Shot media={m} eager fill={heroKind === 'collage'} />
+                ),
+              )}
+            </div>
+          )
+        }
+
+        {project.blocks.map((block) => <CaseBlock block={block} />)}
+
+        <a class="card next reveal" href={`/proyectos/${next.slug}/`}>
+          <span class="next-label">Siguiente proyecto</span>
+          <span class="next-name">{next.name}</span>
+          <span class="next-title">{next.title}</span>
+          <span class="next-arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+    </article>
+
+    <Contact />
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .case-head {
+    padding-top: clamp(116px, 13vw, 150px);
+  }
+
+  .back {
+    display: inline-block;
+    margin-bottom: clamp(28px, 4vw, 44px);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--link);
+  }
+
+  .back:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  h1 {
+    margin: 12px 0 0;
+    max-width: 15em;
+    font-size: clamp(40px, 6.4vw, 80px);
+    line-height: 1.02;
+    letter-spacing: -0.042em;
+    font-weight: 700;
+    text-wrap: balance;
+  }
+
+  .lead {
+    margin: 24px 0 0;
+    max-width: 40em;
+    font-size: clamp(19px, 1.9vw, 23px);
+    line-height: 1.45;
+    letter-spacing: -0.012em;
+    color: var(--text-2);
+    text-wrap: pretty;
+  }
+
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px;
+    margin: clamp(36px, 5vw, 56px) 0 0;
+    padding-top: 24px;
+    border-top: 0.5px solid var(--line);
+  }
+
+  .facts dt {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-3);
+  }
+
+  .facts dd {
+    margin: 6px 0 0;
+    font-size: 16px;
+    line-height: 1.4;
+  }
+
+  .head-foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 32px;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .tags li {
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 13px;
+    color: var(--text-2);
+    background: var(--chip);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  /* Hero media */
+  .case-hero {
+    margin-top: clamp(40px, 5vw, 64px);
+  }
+
+  .case-hero-collage {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: var(--grid-gap);
+  }
+
+  .case-hero-collage > :global(:first-child) {
+    grid-row: span 2;
+  }
+
+  .case-hero-tinted {
+    display: flex;
+    justify-content: center;
+    height: clamp(360px, 52vw, 640px);
+    padding-top: clamp(32px, 5vw, 64px);
+    border-radius: 32px;
+    overflow: hidden;
+    background: var(--tint);
+  }
+
+  .case-hero-tinted :global(.shot) {
+    width: min(560px, 78%);
+  }
+
+  /* Landscape and portrait media side by side, all the same height. */
+  .case-hero-strip {
+    display: flex;
+    gap: var(--grid-gap);
+  }
+
+  .strip-item {
+    flex-shrink: 1;
+    flex-basis: 0;
+    min-width: 0;
+  }
+
+  .strip-item :global(.shot) {
+    border-radius: var(--radius-l);
+  }
+
+  /* Brand photo with the product in front, on the brand colour. */
+  .case-hero-stage {
+    position: relative;
+    isolation: isolate;
+    height: clamp(460px, 50vw, 660px);
+    border-radius: 32px;
+    overflow: hidden;
+    background: var(--tint);
+  }
+
+  .case-hero-stage::before {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    right: -4%;
+    bottom: -30%;
+    width: 64%;
+    aspect-ratio: 1;
+    background: radial-gradient(closest-side, rgb(231 255 169 / 0.2), transparent);
+  }
+
+  .stage-photo {
+    position: absolute;
+    inset: 0 38% 0 0;
+  }
+
+  .stage-photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .stage-photo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent 30%, var(--tint) 99%);
+  }
+
+  .stage-device {
+    position: absolute;
+    z-index: 2;
+    right: 6%;
+    top: 13%;
+    width: min(560px, 46%);
+    height: auto;
+    filter: drop-shadow(0 40px 50px rgb(0 0 0 / 0.45));
+  }
+
+  .case-hero-single :global(.shot) {
+    border-radius: 28px;
+    box-shadow: 0 40px 90px -40px rgb(7 26 82 / 0.6);
+  }
+
+  /* Next */
+  .next {
+    position: relative;
+    display: grid;
+    gap: 6px;
+    margin-top: clamp(80px, 10vw, 140px);
+    padding: clamp(28px, 4vw, 48px);
+    padding-right: 96px;
+    color: inherit;
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .next:hover {
+    transform: translateY(-3px);
+  }
+
+  .next-label {
+    font-size: 14px;
+    color: var(--text-2);
+  }
+
+  .next-name {
+    font-size: clamp(28px, 3.4vw, 44px);
+    font-weight: 700;
+    letter-spacing: -0.035em;
+  }
+
+  .next-title {
+    font-size: 17px;
+    color: var(--text-2);
+  }
+
+  .next-arrow {
+    position: absolute;
+    right: clamp(28px, 4vw, 48px);
+    top: 50%;
+    translate: 0 -50%;
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    font-size: 20px;
+    color: #fff;
+    background: var(--accent);
+  }
+
+  @media (max-width: 900px) {
+    .facts {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .stage-photo {
+      inset: 0 0 34% 0;
+    }
+
+    .stage-photo::after {
+      background: linear-gradient(180deg, transparent 40%, var(--tint) 99%);
+    }
+
+    .case-hero-stage::before {
+      right: auto;
+      left: 50%;
+      bottom: -20%;
+      width: 120%;
+      translate: -50% 0;
+    }
+
+    .stage-device {
+      right: auto;
+      left: 50%;
+      top: 34%;
+      width: min(78%, 360px);
+      translate: -50% 0;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .case-hero-strip {
+      flex-direction: column;
+    }
+
+    .strip-item {
+      flex: none;
+      width: 100%;
+    }
+
+    /* The portrait clip shows up again further down the page. */
+    .strip-item + .strip-item {
+      display: none;
+    }
+
+    .case-hero-collage {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto;
+    }
+
+    .case-hero-collage > :global(:first-child) {
+      grid-row: auto;
+      grid-column: 1 / -1;
+    }
+
+    .next {
+      padding-right: clamp(28px, 4vw, 48px);
+    }
+
+    .next-arrow {
+      display: none;
+    }
+  }
+</style>

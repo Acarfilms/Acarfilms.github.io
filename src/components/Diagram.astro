@@ -1,0 +1,160 @@
+---
+// Orchestrator -> four subagents -> verified change. Always drawn on a dark surface.
+const agents = [
+  { x: 70, label: 'Explorar' },
+  { x: 210, label: 'Implementar' },
+  { x: 350, label: 'Revisar' },
+  { x: 490, label: 'Verificar' },
+];
+const label =
+  'Un orquestador reparte el trabajo entre cuatro subagentes: explorar, implementar, revisar y verificar. Sus resultados se unen en un cambio verificado.';
+---
+
+<div class="diagram-wrap">
+  <svg class="diagram" viewBox="0 0 560 220" role="img" aria-label={label}>
+    <g class="links">
+      {agents.map((a) => <path class="flow" d={`M280 56 C280 78 ${a.x} 72 ${a.x} 94`} />)}
+      {agents.map((a) => <path class="flow" d={`M${a.x} 134 C${a.x} 156 280 150 280 172`} />)}
+    </g>
+    <g class="node node-accent">
+      <rect x="200" y="16" width="160" height="40" rx="20"></rect>
+      <text x="280" y="36">Orquestador</text>
+    </g>
+    {
+      agents.map((a) => (
+        <g class="node">
+          <rect x={a.x - 60} y="94" width="120" height="40" rx="12" />
+          <text x={a.x} y="114">
+            {a.label}
+          </text>
+        </g>
+      ))
+    }
+    <g class="node node-done">
+      <rect x="185" y="172" width="190" height="40" rx="20"></rect>
+      <text x="280" y="192">Cambio verificado</text>
+    </g>
+  </svg>
+
+  <div class="flow-narrow" role="img" aria-label={label}>
+    <span class="chip chip-accent">Orquestador</span>
+    <span class="stem"></span>
+    <span class="chip-grid">{agents.map((a) => <span class="chip">{a.label}</span>)}</span>
+    <span class="stem"></span>
+    <span class="chip chip-done">Cambio verificado</span>
+  </div>
+</div>
+
+<style>
+  .diagram {
+    display: block;
+    width: 100%;
+    max-width: 620px;
+    height: auto;
+    margin-inline: auto;
+    overflow: visible;
+  }
+
+  .links path {
+    fill: none;
+    stroke: rgb(255 255 255 / 0.28);
+    stroke-width: 1.25;
+  }
+
+  .node rect {
+    fill: #262628;
+    stroke: rgb(255 255 255 / 0.12);
+  }
+
+  .node text {
+    fill: #f5f5f7;
+    font: 500 14px var(--font);
+    text-anchor: middle;
+    dominant-baseline: central;
+  }
+
+  .node-accent rect {
+    fill: #0a84ff;
+    stroke: none;
+  }
+
+  .node-done rect {
+    fill: color-mix(in srgb, #30d158 16%, #161617);
+    stroke: color-mix(in srgb, #30d158 55%, transparent);
+  }
+
+  .node-done text {
+    fill: #30d158;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .links .flow {
+      stroke-dasharray: 3 5;
+      animation: flow 1.6s linear infinite;
+    }
+
+    @keyframes flow {
+      to {
+        stroke-dashoffset: -16;
+      }
+    }
+  }
+
+  /* Below 600px the SVG text gets too small, so a reflowing version takes over. */
+  .flow-narrow {
+    display: none;
+  }
+
+  @media (max-width: 600px) {
+    .diagram {
+      display: none;
+    }
+
+    .flow-narrow {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #f5f5f7;
+    }
+
+    .chip-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .chip {
+      padding: 9px 12px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      text-align: center;
+      background: #262628;
+      border: 0.5px solid rgb(255 255 255 / 0.12);
+    }
+
+    .chip-accent,
+    .chip-done {
+      padding-inline: 20px;
+      border-radius: 999px;
+    }
+
+    .chip-accent {
+      background: #0a84ff;
+      border-color: transparent;
+    }
+
+    .chip-done {
+      color: #30d158;
+      background: color-mix(in srgb, #30d158 16%, #161617);
+      border-color: color-mix(in srgb, #30d158 55%, transparent);
+    }
+
+    .stem {
+      width: 1px;
+      height: 18px;
+      background: rgb(255 255 255 / 0.28);
+    }
+  }
+</style>

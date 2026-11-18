@@ -1,0 +1,678 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Terminal from '../components/Terminal.astro';
+import Diagram from '../components/Diagram.astro';
+import CodeWindow from '../components/CodeWindow.astro';
+import GuardLog from '../components/GuardLog.astro';
+import Checks from '../components/Checks.astro';
+import GitFlow from '../components/GitFlow.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+
+const steps = [
+  ['decidir', 'Decidir'],
+  ['construir', 'Construir'],
+  ['revisar', 'Revisar'],
+  ['proteger', 'Proteger'],
+  ['entregar', 'Entregar'],
+];
+
+const adr = `# 0004 · Datos de usuarios en la UE
+
+Estado: aceptada
+
+## Contexto
+La app guarda datos personales de clientes europeos.
+
+## Decisión
+Base de datos, ficheros y logs en región UE,
+con contrato de encargado con cada proveedor.
+
+## Alternativas
+Región de EE. UU.: descartada por el RGPD.`;
+
+const claudeMd = `# CLAUDE.md
+
+## Comandos
+- \`pnpm dev\` · \`pnpm verify\` · \`pnpm build\`
+
+## Reglas de oro
+1. Sigue los patrones que ya existen.
+2. Si ves un atajo, propónlo y espera.
+3. Permisos siempre en servidor, nunca en cliente.
+4. Nunca commitees en main.
+
+## Terminado significa
+- \`pnpm verify\` en verde y tests para lo nuevo
+- Sin secretos ni datos personales en código o logs`;
+
+const reviewer = `---
+name: revisor-seguridad
+description: Revisa el diff contra la checklist ASVS
+tools: Read, Grep, Glob
+---
+
+Revisa permisos en servidor, validación de entradas,
+secretos, XSS, ficheros y datos personales en logs.
+Devuelve hallazgos por gravedad, con fichero y línea.`;
+
+const workflow = `const angulos = ['bugs', 'seguridad', 'rendimiento'];
+
+// Varios revisores en paralelo, cada uno con un foco
+const revisiones = await parallel(angulos.map((a) => () =>
+  agent(\`Revisa el diff buscando \${a}\`, { schema: HALLAZGOS })));
+
+// Otro agente intenta tumbar cada hallazgo
+const veredictos = await parallel(revisiones.flatMap((r) => r.hallazgos)
+  .map((h) => () => agent(\`Intenta refutar: \${h.titulo}\`, { schema: VEREDICTO })));
+
+return veredictos.filter((v) => v.esReal);`;
+
+const settings = `{
+  "permissions": {
+    "deny": [
+      "Read(**/.env)",
+      "Read(**/.env.*.local)",
+      "Read(**/.dev.vars)",
+      "Read(**/secrets/**)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      { "matcher": "Bash", "hooks": [{ "type": "command", "command": "node .claude/hooks/guard-bash.mjs" }] },
+      { "matcher": "Edit|Write", "hooks": [{ "type": "command", "command": "node .claude/hooks/guard-edit.mjs" }] }
+    ],
+    "Stop": [
+      { "hooks": [{ "type": "command", "command": "node .claude/hooks/stop-verify.mjs" }] }
+    ]
+  }
+}`;
+
+const log = `feat(agenda): añade reservas con pago por adelantado
+fix(pagos): evita cobros duplicados al reintentar
+docs(adr): 0012 configuración de Claude en el repo
+ci: fija las Actions por SHA
+chore(release): web 1.4.0`;
+
+const controls = [
+  ['OWASP ASVS nivel 2', 'Mi objetivo para la web; MASVS para las apps móviles.'],
+  ['Permisos en la base de datos', 'RLS en todas las tablas, denegando por defecto, con un test por política.'],
+  ['MFA donde importa', 'Obligatoria para las cuentas del equipo y comprobada en la propia base de datos.'],
+  ['Dependencias con calma', 'Versiones con antigüedad mínima, scripts de instalación bloqueados y lockfile congelado.'],
+  ['Análisis en cada PR', 'gitleaks para secretos, Semgrep, OSV-Scanner y Dependabot.'],
+  ['CI blindada', 'Actions fijadas por SHA, permisos mínimos y cuentas con doble factor.'],
+];
+
+const servers = [
+  ['Playwright', 'Un navegador real para recorrer la app, probarla y hacer capturas.'],
+  ['Bases de datos', 'MongoDB y BigQuery para consultar esquemas y datos sin salir de la sesión.'],
+  ['Nube', 'Firebase y Azure: proyectos, reglas, diagnósticos y despliegues.'],
+];
+---
+
+<Base
+  title="Cómo trabajo · Ángel Carrascosa"
+  description="Mi proceso de ingeniería con agentes de IA: decisiones por escrito, ramas cortas, revisión de cada cambio, privacidad de código y datos, y seguridad en la cadena de suministro."
+>
+  <Nav />
+  <main id="main">
+    <header class="page-head wrap">
+      <p class="eyebrow">Cómo trabajo</p>
+      <h1>La IA acelera. El criterio es mío.</h1>
+      <p class="lead">
+        Uso agentes de IA a diario, pero el proceso es de ingeniería de siempre: decido por escrito, trabajo en ramas
+        cortas, reviso cada cambio y protejo el código y los datos. Los agentes trabajan dentro de ese marco, no al revés.
+      </p>
+      <nav class="steps" aria-label="Fases del proceso">
+        <ol>
+          {
+            steps.map(([id, label], i) => (
+              <li>
+                <a href={`#${id}`}>
+                  <span class="n">0{i + 1}</span>
+                  {label}
+                </a>
+              </li>
+            ))
+          }
+        </ol>
+      </nav>
+    </header>
+
+    <div class="wrap">
+      <div class="stage">
+        <img class="stage-wall" src="/tide.svg" alt="" width="840" height="390" />
+        <div class="stage-term"><Terminal /></div>
+      </div>
+    </div>
+
+    <div class="wrap chapters">
+      <!-- 01 Decidir -->
+      <section class="chapter reveal" id="decidir">
+        <div class="ch-text">
+          <p class="eyebrow">01 · Decidir</p>
+          <h2>Primero se decide, luego se programa.</h2>
+          <p>
+            Antes de tocar código dejo claro qué se va a hacer y por qué. Cada decisión de arquitectura queda en un ADR,
+            con el contexto, las alternativas que descarté y sus consecuencias.
+          </p>
+          <p>
+            El estado del proyecto vive en un documento que cada sesión, mía o de un agente, lee al empezar. La
+            planificación del equipo va por sprints en Jira o Notion.
+          </p>
+        </div>
+        <div class="ch-visual"><CodeWindow name="docs/adr/0004-datos-en-la-ue.md" code={adr} /></div>
+      </section>
+
+      <!-- 02 Construir -->
+      <section class="chapter flip reveal" id="construir">
+        <div class="ch-text">
+          <p class="eyebrow">02 · Construir</p>
+          <h2>Un orquestador y especialistas.</h2>
+          <p>
+            Me he especializado en Claude Code. Para una tarea grande, un orquestador la divide y lanza subagentes en
+            paralelo, cada uno con un papel, un contexto limpio y solo las herramientas que necesita: uno explora el
+            código, otro implementa, otro revisa y otro verifica.
+          </p>
+          <p>Así una tarea de horas avanza en paralelo sin que yo pierda el control de lo que entra.</p>
+        </div>
+        <div class="ch-visual dark-panel"><Diagram /></div>
+      </section>
+
+      <section class="chapter reveal">
+        <div class="ch-text">
+          <h3 class="sub">El contexto vive en el repo.</h3>
+          <p>
+            Cada proyecto lleva su CLAUDE.md, reglas por carpeta, skills y agentes versionados en git. Cualquier sesión
+            arranca sabiendo los comandos, las convenciones y qué significa «terminado».
+          </p>
+          <p>
+            Si cambio una norma, cambia para todos, y quien llega al equipo hereda lo mismo que los agentes. Pero el
+            contexto solo guía: lo que no se puede saltar lo imponen los hooks y la CI.
+          </p>
+        </div>
+        <div class="ch-visual"><CodeWindow name="CLAUDE.md" code={claudeMd} /></div>
+      </section>
+
+      <section class="chapter-wide reveal">
+        <div class="ch-text">
+          <h3 class="sub">Agentes conectados a sistemas reales.</h3>
+          <p>
+            Con servidores MCP los agentes no trabajan sobre suposiciones: abren el navegador, consultan la base de datos o
+            revisan la nube, siempre con los permisos que yo les doy.
+          </p>
+        </div>
+        <ul class="cards cards-3">
+          {
+            servers.map(([name, body]) => (
+              <li class="card">
+                <h4>{name}</h4>
+                <p>{body}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <!-- 03 Revisar -->
+      <section class="chapter reveal" id="revisar">
+        <div class="ch-text">
+          <p class="eyebrow">03 · Revisar</p>
+          <h2>Nada entra sin revisar.</h2>
+          <p>Cada cambio pasa tres filtros antes de llegar a <code>main</code>:</p>
+          <ol class="layers">
+            <li>
+              <strong>Automático.</strong> Al terminar, un hook ejecuta <code>verify</code> (typecheck, lint y tests). Si
+              falla, el agente no puede dar la tarea por cerrada.
+            </li>
+            <li>
+              <strong>Agentes revisores de solo lectura.</strong> Uno revisa la seguridad contra una checklist OWASP ASVS y
+              otro vigila la arquitectura: límites entre módulos, dependencias nuevas y lógica duplicada.
+            </li>
+            <li>
+              <strong>Yo.</strong> Leo el diff de cada PR, compruebo los hallazgos y decido. Sin CI en verde no se fusiona.
+            </li>
+          </ol>
+        </div>
+        <div class="ch-visual stack">
+          <div class="dark-panel tight"><Checks /></div>
+          <CodeWindow name=".claude/agents/revisor-seguridad.md" code={reviewer} />
+        </div>
+      </section>
+
+      <section class="chapter flip reveal">
+        <div class="ch-text">
+          <h3 class="sub">Workflows: revisión en paralelo, con contraprueba.</h3>
+          <p>
+            Para cambios grandes lanzo un workflow: varios agentes revisan el mismo diff desde ángulos distintos y otro
+            agente intenta refutar cada hallazgo. A mí solo me llega lo que sobrevive, ordenado por gravedad.
+          </p>
+          <p>Menos ruido en la revisión y más tiempo para lo que de verdad necesita criterio.</p>
+        </div>
+        <div class="ch-visual"><CodeWindow name="workflows/revisar-pr.js" code={workflow} /></div>
+      </section>
+
+      <section class="chapter reveal">
+        <div class="ch-text">
+          <h3 class="sub">Que compile no significa que funcione.</h3>
+          <p>
+            Los agentes abren la app en un navegador con Playwright, la recorren y hacen capturas en escritorio y en móvil,
+            en modo claro y oscuro. Si algo se ve mal, vuelve a la lista de tareas.
+          </p>
+          <p>Esta web se revisó así, sección a sección. Las capturas son del propio agente.</p>
+        </div>
+        <div class="ch-visual shots">
+          <figure class="site-shot desk">
+            <img src="/img/site/escritorio.webp" alt="Captura de la portada de esta web en escritorio, en modo claro." width="1280" height="800" loading="lazy" />
+          </figure>
+          <figure class="site-shot phone">
+            <img src="/img/site/movil.webp" alt="Captura de la portada de esta web en un móvil, en modo oscuro." width="390" height="844" loading="lazy" />
+          </figure>
+        </div>
+      </section>
+
+      <!-- 04 Proteger -->
+      <section class="chapter flip reveal" id="proteger">
+        <div class="ch-text">
+          <p class="eyebrow">04 · Proteger</p>
+          <h2>Los agentes no ven lo que no deben.</h2>
+          <p>
+            La configuración de Claude Code vive en el repo, y lo personal queda fuera de git. Los permisos impiden
+            leer <code>.env</code> y la carpeta de secretos, y los hooks bloquean editar secretos, meter claves de servidor en el
+            cliente, reescribir historia o tocar la base de datos remota fuera de la CI.
+          </p>
+          <p>
+            Los secretos nunca pasan por el chat ni por el código de cliente. Los datos de usuarios se quedan en la UE, los
+            datos personales se filtran de los logs y la analítica solo se activa con consentimiento.
+          </p>
+        </div>
+        <div class="ch-visual stack">
+          <CodeWindow name=".claude/settings.json" code={settings} />
+          <div class="dark-panel tight"><GuardLog /></div>
+        </div>
+      </section>
+
+      <section class="chapter-wide reveal">
+        <div class="ch-text">
+          <h3 class="sub">Seguridad desde el primer commit.</h3>
+          <p>Esta es la base con la que arranco un proyecto nuevo, antes de escribir la primera funcionalidad:</p>
+        </div>
+        <ul class="cards cards-3">
+          {
+            controls.map(([name, body]) => (
+              <li class="card">
+                <h4>{name}</h4>
+                <p>{body}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <!-- 05 Entregar -->
+      <section class="chapter reveal" id="entregar">
+        <div class="ch-text">
+          <p class="eyebrow">05 · Entregar</p>
+          <h2>Ramas cortas y versiones automáticas.</h2>
+          <p>
+            Trabajo trunk-based: ramas cortas, una PR por cambio y squash al fusionar. Los commits siguen Conventional
+            Commits y release-please genera el changelog, las versiones y las etiquetas.
+          </p>
+          <p>
+            Lo nuevo sale detrás de un feature flag apagado y con fecha de caducidad, y los flags nunca sustituyen a los
+            permisos. Las migraciones de base de datos solo se aplican desde la CI, sin romper la versión anterior.
+          </p>
+        </div>
+        <div class="ch-visual stack">
+          <div class="dark-panel"><GitFlow /></div>
+          <CodeWindow name="git log --oneline" code={log} />
+        </div>
+      </section>
+
+      <section class="closing reveal">
+        <h2>Más rápido, sin bajar el listón.</h2>
+        <p>
+          Cada cambio llega decidido, revisado, protegido y probado. Y como todo vive en el repositorio, el método escala a
+          un equipo: quien llega hereda las mismas reglas, los mismos agentes y las mismas comprobaciones.
+        </p>
+        <div class="actions">
+          <a class="btn btn-primary" href="/#proyectos">Ver proyectos</a>
+          <a class="btn" href="/#contacto">Contactar</a>
+        </div>
+      </section>
+    </div>
+
+    <Contact />
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .page-head {
+    padding-top: clamp(116px, 13vw, 150px);
+  }
+
+  h1 {
+    margin: 12px 0 0;
+    max-width: 12em;
+    font-size: clamp(42px, 7vw, 92px);
+    line-height: 1;
+    letter-spacing: -0.045em;
+    font-weight: 700;
+    text-wrap: balance;
+  }
+
+  .lead {
+    margin: 24px 0 0;
+    max-width: 38em;
+    font-size: clamp(19px, 1.9vw, 23px);
+    line-height: 1.45;
+    color: var(--text-2);
+    text-wrap: pretty;
+  }
+
+  /* Process index */
+  .steps ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 32px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .steps a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 40px;
+    padding: 0 16px 0 6px;
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 500;
+    background: var(--btn);
+    transition: background-color 0.2s;
+  }
+
+  .steps a:hover {
+    background: var(--btn-hover);
+  }
+
+  .steps .n {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    font: 600 12px var(--mono);
+    color: #fff;
+    background: var(--accent);
+  }
+
+  /* Stage */
+  .stage {
+    position: relative;
+    display: grid;
+    place-items: center;
+    margin-top: clamp(40px, 5vw, 64px);
+    padding: clamp(24px, 7vw, 88px) clamp(16px, 9vw, 140px);
+    border-radius: 32px;
+    overflow: hidden;
+    isolation: isolate;
+    background: #071a52;
+  }
+
+  .stage-wall {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 70%;
+    z-index: -1;
+  }
+
+  .stage-term {
+    width: 100%;
+    min-width: 0;
+    max-width: 760px;
+  }
+
+  /* Chapters */
+  .chapters {
+    padding-bottom: clamp(40px, 6vw, 80px);
+  }
+
+  .chapter {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    align-items: center;
+    gap: 32px clamp(32px, 5vw, 80px);
+    margin-top: clamp(72px, 9vw, 128px);
+  }
+
+  [id] {
+    scroll-margin-top: 96px;
+  }
+
+  .flip .ch-text {
+    order: 2;
+  }
+
+  .ch-visual {
+    min-width: 0;
+  }
+
+  .chapter-wide {
+    margin-top: clamp(72px, 9vw, 128px);
+  }
+
+  .chapter-wide .ch-text {
+    max-width: 44em;
+  }
+
+  h2 {
+    margin: 10px 0 0;
+    font-size: clamp(30px, 3.8vw, 48px);
+    line-height: 1.06;
+    letter-spacing: -0.035em;
+    font-weight: 700;
+    text-wrap: balance;
+  }
+
+  .sub {
+    margin: 0;
+    font-size: clamp(24px, 2.6vw, 32px);
+    line-height: 1.12;
+    letter-spacing: -0.028em;
+    font-weight: 700;
+    text-wrap: balance;
+  }
+
+  .ch-text p:not(.eyebrow),
+  .layers li {
+    margin: 18px 0 0;
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--text-2);
+    text-wrap: pretty;
+  }
+
+  .ch-text code {
+    font: 0.88em var(--mono);
+    color: var(--text);
+  }
+
+  .layers {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: layer;
+  }
+
+  .layers li {
+    position: relative;
+    padding-left: 40px;
+    counter-increment: layer;
+  }
+
+  .layers li::before {
+    content: counter(layer);
+    position: absolute;
+    left: 0;
+    top: 1px;
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    font: 600 13px var(--font);
+    color: #fff;
+    background: var(--accent);
+  }
+
+  .layers strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .stack {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .dark-panel {
+    padding: clamp(28px, 4vw, 48px) clamp(20px, 3vw, 40px);
+    border-radius: var(--radius-l);
+    background: #000;
+    color: #f5f5f7;
+  }
+
+  .dark-panel.tight {
+    padding: 0;
+    background: none;
+  }
+
+  /* Cards */
+  .cards {
+    display: grid;
+    gap: var(--grid-gap);
+    margin: clamp(28px, 4vw, 44px) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .cards-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .cards li {
+    padding: 24px 26px 26px;
+  }
+
+  .cards h4 {
+    margin: 0;
+    font-size: 19px;
+    letter-spacing: -0.02em;
+  }
+
+  .cards p {
+    margin: 8px 0 0;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--text-2);
+  }
+
+  /* Screenshots of this site */
+  .shots {
+    position: relative;
+    padding-bottom: 10%;
+  }
+
+  .site-shot {
+    margin: 0;
+    overflow: hidden;
+    background: var(--card);
+  }
+
+  .site-shot img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .desk {
+    width: 88%;
+    border-radius: 14px;
+    box-shadow:
+      0 0 0 0.5px var(--line),
+      0 30px 60px -30px rgb(0 0 0 / 0.35);
+  }
+
+  .phone {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 30%;
+    border-radius: 22px;
+    border: 5px solid #1d1d1f;
+    box-shadow: 0 30px 60px -20px rgb(0 0 0 / 0.5);
+  }
+
+  /* Closing */
+  .closing {
+    margin-top: clamp(96px, 12vw, 160px);
+    padding: clamp(36px, 6vw, 72px);
+    border-radius: 32px;
+    background: var(--card);
+    text-align: center;
+  }
+
+  .closing p {
+    margin: 18px auto 0;
+    max-width: 36em;
+    font-size: 19px;
+    line-height: 1.5;
+    color: var(--text-2);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 28px;
+  }
+
+  @media (max-width: 900px) {
+    .chapter {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .flip .ch-text {
+      order: 0;
+    }
+
+    .cards-3 {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .cards-3 {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .ch-text p:not(.eyebrow),
+    .layers li {
+      font-size: 17px;
+    }
+
+    .stage {
+      padding: 16px;
+      border-radius: 24px;
+    }
+  }
+</style>

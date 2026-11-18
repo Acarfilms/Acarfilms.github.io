@@ -1,0 +1,74 @@
+---
+import { highlight } from '../lib/code';
+
+type Props = { name: string; code: string };
+const { name, code } = Astro.props;
+---
+
+<figure class="code">
+  <figcaption>
+    <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
+    <span class="name">{name}</span>
+  </figcaption>
+  <pre><code set:html={highlight(code, name)} /></pre>
+</figure>
+
+<style>
+  .code {
+    margin: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #0d0d0f;
+    color: #e8e8ed;
+    border: 0.5px solid rgb(255 255 255 / 0.1);
+    box-shadow: 0 24px 60px -32px rgb(0 0 0 / 0.5);
+  }
+
+  figcaption {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    border-bottom: 0.5px solid rgb(255 255 255 / 0.08);
+    background: #161618;
+  }
+
+  .lights {
+    position: absolute;
+    left: 14px;
+    display: flex;
+    gap: 7px;
+  }
+
+  .lights i {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: rgb(255 255 255 / 0.16);
+  }
+
+  .name {
+    font: 12px var(--mono);
+    color: rgb(255 255 255 / 0.55);
+  }
+
+  pre {
+    margin: 0;
+    padding: 18px 20px 20px;
+    overflow-x: auto;
+    font: 13px/1.7 var(--mono);
+  }
+
+  pre :global(.c-key) {
+    color: #64d2ff;
+  }
+
+  pre :global(.c-str) {
+    color: #ffd60a;
+  }
+
+  pre :global(.c-dim) {
+    color: rgb(255 255 255 / 0.4);
+  }
+</style>

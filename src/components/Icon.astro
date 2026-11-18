@@ -1,0 +1,17 @@
+---
+import * as icons from 'simple-icons';
+
+type Props = { slug: string; size?: number };
+const { slug, size = 18 } = Astro.props;
+
+const key = `si${slug.charAt(0).toUpperCase()}${slug.slice(1)}` as keyof typeof icons;
+const icon = icons[key] as { path: string } | undefined;
+---
+
+{
+  icon && (
+    <svg class="icon" width={size} height={size} viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+      <path d={icon.path} />
+    </svg>
+  )
+}

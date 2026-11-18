@@ -1,0 +1,245 @@
+---
+import Terminal from './Terminal.astro';
+import { profile, heroWidgets } from '../data/profile';
+---
+
+<section class="hero" id="top">
+  <div class="wrap">
+    <p class="eyebrow">{profile.headline}</p>
+    <h1>Hola, soy Ángel.</h1>
+
+    <div class="hero-row">
+      <p class="hero-lead">
+        Construyo apps, webs y productos de IA, <span>de la primera idea a producción.</span>
+      </p>
+      <div class="hero-side">
+        <p class="hero-intro">
+          Llevo cuatro años dirigiendo tecnología: fui cofundador y CTO de MixReal AI y en IABeauty, como Senior Software
+          Engineer, me encargué de todo el desarrollo y las decisiones técnicas. Programo con agentes de IA cada día, con un
+          proceso pensado para que cada cambio llegue revisado, seguro y sin exponer datos privados.
+        </p>
+        <p class="hero-status">
+          <span class="dot" aria-hidden="true"></span>
+          {profile.availability} · {profile.location}
+        </p>
+        <div class="actions">
+          <a class="btn btn-primary" href="#proyectos">Ver proyectos</a>
+          <a class="btn" href={profile.links.linkedin} target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">↗</span></a>
+          <a class="btn" href={profile.links.github} target="_blank" rel="noopener">GitHub <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="stage">
+      <img class="stage-wall" src="/tide.svg" alt="" width="840" height="390" fetchpriority="high" />
+      <div class="stage-term">
+        <Terminal />
+      </div>
+      <ul class="widgets">
+        {
+          heroWidgets.map((w) => (
+            <li class="widget">
+              <span class="widget-label">{w.label}</span>
+              <span class="widget-value">{w.value}</span>
+              <span class="widget-detail">{w.detail}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-block: clamp(116px, 13vw, 150px) clamp(56px, 7vw, 88px);
+  }
+
+  h1 {
+    margin: 12px 0 0;
+    font-size: clamp(52px, 9.2vw, 116px);
+    line-height: 0.98;
+    letter-spacing: -0.045em;
+    font-weight: 700;
+  }
+
+  .hero-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    align-items: start;
+    gap: 28px clamp(32px, 5vw, 72px);
+    margin-top: clamp(20px, 2.6vw, 32px);
+  }
+
+  .hero-lead {
+    margin: 0;
+    font-size: clamp(26px, 3.1vw, 40px);
+    line-height: 1.12;
+    letter-spacing: -0.028em;
+    font-weight: 600;
+    text-wrap: balance;
+  }
+
+  .hero-lead span {
+    color: var(--text-3);
+  }
+
+  .hero-side {
+    display: grid;
+    gap: 18px;
+    justify-items: start;
+  }
+
+  .hero-intro {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--text-2);
+    max-width: 32em;
+    text-wrap: pretty;
+  }
+
+  .hero-status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    font-size: 15px;
+    color: var(--text-2);
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--green) 20%, transparent);
+    flex: none;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  /* Stage: the Vitrine wallpaper with a terminal and widgets floating on it. */
+  .stage {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) clamp(220px, 24vw, 290px);
+    align-items: center;
+    gap: clamp(16px, 2vw, 24px);
+    margin-top: clamp(40px, 5.5vw, 64px);
+    padding: clamp(28px, 5vw, 64px);
+    border-radius: 32px;
+    overflow: hidden;
+    isolation: isolate;
+    background: #071a52;
+    box-shadow: 0 40px 90px -40px rgb(7 26 82 / 0.6);
+  }
+
+  .stage-wall {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 70%;
+    z-index: -1;
+  }
+
+  .stage-term {
+    min-width: 0;
+  }
+
+  .widgets {
+    display: grid;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .widget {
+    display: flex;
+    flex-direction: column;
+    padding: 16px 18px;
+    border-radius: 22px;
+    color: #fff;
+    background: rgb(255 255 255 / 0.14);
+    border: 0.5px solid rgb(255 255 255 / 0.32);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.25);
+    -webkit-backdrop-filter: blur(22px) saturate(160%);
+    backdrop-filter: blur(22px) saturate(160%);
+  }
+
+  .widget-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: rgb(255 255 255 / 0.7);
+  }
+
+  .widget-value {
+    margin-top: 4px;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+  }
+
+  .widget-detail {
+    margin-top: 2px;
+    font-size: 13px;
+    color: rgb(255 255 255 / 0.75);
+  }
+
+  @media (max-width: 960px) {
+    .hero-row {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .stage {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .widgets {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 640px) {
+    .stage {
+      padding: 16px;
+      border-radius: 26px;
+    }
+
+    .widgets {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .widget {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: baseline;
+      column-gap: 12px;
+      padding: 12px 16px;
+      border-radius: 18px;
+    }
+
+    .widget-label {
+      grid-column: 1 / -1;
+    }
+
+    .widget-value {
+      font-size: 16px;
+    }
+
+    .widget-detail {
+      font-size: 12px;
+      text-align: right;
+    }
+  }
+</style>

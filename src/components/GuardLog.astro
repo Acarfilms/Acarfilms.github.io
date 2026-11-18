@@ -1,0 +1,61 @@
+---
+// What the permission rules and PreToolUse hooks stop before it happens.
+const rows = [
+  ['Read(.env)', 'los agentes no leen secretos'],
+  ['git push --force', 'nada de reescribir historia'],
+  ['db push --linked', 'las migraciones van por CI'],
+  ['git commit · main', 'siempre en una rama'],
+  ['git commit --no-verify', 'no se saltan los hooks'],
+];
+---
+
+<div class="log" role="img" aria-label="Registro de los hooks de seguridad: bloquean leer .env, el push forzado, las migraciones fuera de CI, los commits en main y saltarse los hooks. La edición dentro de una funcionalidad sí se permite.">
+  <div aria-hidden="true">
+    {
+      rows.map(([cmd, why]) => (
+        <p class="row">
+          <span class="no">⊘</span>
+          <span class="cmd">{cmd}</span>
+          <span class="why">{why}</span>
+        </p>
+      ))
+    }
+    <p class="row">
+      <span class="yes">✓</span>
+      <span class="cmd">Edit(src/features/…)</span>
+      <span class="why">permitido</span>
+    </p>
+  </div>
+</div>
+
+<style>
+  .log {
+    padding: 16px 18px;
+    border-radius: 16px;
+    background: #000;
+    border: 0.5px solid rgb(255 255 255 / 0.1);
+    font: 13px/1.9 var(--mono);
+    color: #f5f5f7;
+    overflow-x: auto;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 1.4em minmax(14ch, auto) 1fr;
+    gap: 0 12px;
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  .no {
+    color: #ff453a;
+  }
+
+  .yes {
+    color: #30d158;
+  }
+
+  .why {
+    color: rgb(255 255 255 / 0.45);
+  }
+</style>

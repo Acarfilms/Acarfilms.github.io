@@ -1,0 +1,125 @@
+---
+import type { Media } from '../data/projects';
+
+type Props = { media: Media; eager?: boolean; fill?: boolean; class?: string };
+const { media, eager = false, fill = false, class: className } = Astro.props;
+const frame = media.frame ?? 'plain';
+const pos = media.pos ? `object-position: ${media.pos}` : undefined;
+---
+
+<figure class:list={['shot', `shot-${frame}`, { 'shot-fill': fill, 'shot-video': media.video }, className]}>
+  {
+    frame === 'browser' && (
+      <div class="chrome" aria-hidden="true">
+        <span />
+        <span />
+        <span />
+      </div>
+    )
+  }
+  {
+    media.video && (
+      <video
+        src={media.video}
+        poster={media.src}
+        width={media.w}
+        height={media.h}
+        style={pos}
+        autoplay
+        muted
+        loop
+        playsinline
+        preload={eager ? 'auto' : 'metadata'}
+        aria-label={media.alt}
+      />
+    )
+  }
+  <picture>
+    {media.dark && <source srcset={media.dark} media="(prefers-color-scheme: dark)" />}
+    <img
+      src={media.src}
+      alt={media.video ? '' : media.alt}
+      width={media.w}
+      height={media.h}
+      style={pos}
+      loading={eager ? 'eager' : 'lazy'}
+      decoding="async"
+    />
+  </picture>
+</figure>
+
+<style>
+  .shot {
+    margin: 0;
+    overflow: hidden;
+  }
+
+  .shot picture {
+    display: contents;
+  }
+
+  .shot img,
+  .shot video {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* The still stands in for the loop when motion is reduced. */
+  .shot-video img {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .shot-video video {
+      display: none;
+    }
+
+    .shot-video img {
+      display: block;
+    }
+  }
+
+  .shot-fill {
+    height: 100%;
+  }
+
+  .shot-fill img,
+  .shot-fill video {
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .shot-plain {
+    border-radius: var(--radius-m);
+    background: var(--card-raised);
+    box-shadow: 0 0 0 0.5px var(--line);
+  }
+
+  .shot-bare {
+    overflow: visible;
+  }
+
+  .shot-browser {
+    border-radius: 14px;
+    background: var(--bg);
+    box-shadow:
+      0 0 0 0.5px var(--line),
+      0 24px 60px -30px rgb(0 0 0 / 0.35);
+  }
+
+  .chrome {
+    display: flex;
+    gap: 7px;
+    padding: 11px 14px;
+    border-bottom: 0.5px solid var(--line);
+    background: var(--card);
+  }
+
+  .chrome span {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--line);
+  }
+</style>

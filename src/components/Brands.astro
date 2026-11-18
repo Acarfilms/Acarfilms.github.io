@@ -1,0 +1,76 @@
+---
+import { brands } from '../data/profile';
+
+// Optical sizing: every logo gets roughly the same ink area, capped in height.
+const AREA = 3200;
+const MAX_H = 54;
+const sized = brands.map((b) => {
+  const ratio = b.w / b.h;
+  const h = Math.min(MAX_H, Math.sqrt(AREA / ratio));
+  return { ...b, h: Math.round(h), w: Math.round(h * ratio) };
+});
+---
+
+<ul class="brands" aria-label="Marcas">
+  {
+    sized.map((b) => (
+      <li>
+        <span
+          class="logo"
+          role="img"
+          aria-label={b.name}
+          style={`--src: url(/img/brands/${b.file}.png); --w: ${b.w}px; --h: ${b.h}px`}
+        />
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .brands {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    align-items: center;
+    gap: clamp(28px, 4vw, 48px) clamp(20px, 3vw, 40px);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    display: flex;
+    justify-content: center;
+  }
+
+  .logo {
+    --k: 1;
+    display: block;
+    width: calc(var(--w) * var(--k));
+    height: calc(var(--h) * var(--k));
+    max-width: 100%;
+    background: var(--text-2);
+    -webkit-mask: var(--src) center / contain no-repeat;
+    mask: var(--src) center / contain no-repeat;
+    transition: background-color 0.2s;
+  }
+
+  li:hover .logo {
+    background: var(--text);
+  }
+
+  @media (max-width: 900px) {
+    .brands {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 520px) {
+    .brands {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .logo {
+      --k: 0.78;
+    }
+  }
+</style>

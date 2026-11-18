@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 390" preserveAspectRatio="xMidYMid slice" fill="none"><defs>
+<linearGradient id="wp-sky" x1="0" y1="0" x2=".3" y2="1"><stop offset="0" stop-color="#02071C"/><stop offset="0.5" stop-color="#071A52"/><stop offset="1" stop-color="#0B2F8A"/></linearGradient>
+<linearGradient id="wp-wave-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1B4FD6"/><stop offset="1" stop-color="#0A1F6B"/></linearGradient>
+<linearGradient id="wp-wave-1" x1="0" y1="0" x2="1" y2="0.6"><stop offset="0" stop-color="#2E8BFF"/><stop offset="0.5" stop-color="#1F5BEA"/><stop offset="1" stop-color="#5B4BE0"/></linearGradient>
+<linearGradient id="wp-wave-2" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5FD3FF"/><stop offset="0.5" stop-color="#3A8DFF"/><stop offset="1" stop-color="#FF8A5C"/></linearGradient>
+<linearGradient id="wp-wave-3" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2A6BFF"/><stop offset="0.5" stop-color="#7A5CFF"/><stop offset="1" stop-color="#FF6F61"/></linearGradient>
+<linearGradient id="wp-crest" x1="0" y1="0" x2="1" y2="0">
+  <stop offset="0" stop-color="#FFFFFF" stop-opacity="0"/><stop offset=".35" stop-color="#FFFFFF" stop-opacity=".55"/>
+  <stop offset=".8" stop-color="#FFFFFF" stop-opacity=".25"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+</linearGradient>
+<filter id="wp-glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="55"/></filter>
+<filter id="wp-lift" x="-10%" y="-30%" width="120%" height="160%"><feDropShadow dx="0" dy="-10" stdDeviation="14" flood-color="#000A2E" flood-opacity=".6"/></filter>
+<filter id="wp-soften" x="-5%" y="-50%" width="110%" height="200%"><feGaussianBlur stdDeviation="1.2"/></filter>
+<filter id="wp-grain" x="0" y="0" width="100%" height="100%">
+  <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" stitchTiles="stitch"/>
+  <feColorMatrix type="saturate" values="0"/>
+  <feComponentTransfer><feFuncA type="table" tableValues="0 .09"/></feComponentTransfer>
+</filter></defs><g id="wall">
+<rect width="840" height="390" fill="url(#wp-sky)"/>
+<g filter="url(#wp-glow)">
+<ellipse cx="690" cy="70" rx="250" ry="150" fill="#1E6BFF" opacity="0.8"/>
+<ellipse cx="120" cy="360" rx="280" ry="140" fill="#00A3FF" opacity="0.45"/>
+<ellipse cx="800" cy="380" rx="200" ry="130" fill="#FF7A45" opacity="0.5"/>
+</g>
+<path d="M0 214C170 168 318 282 520 236S760 150 840 176V390H0Z" fill="url(#wp-wave-0)" filter="url(#wp-lift)"/>
+<path d="M0 270C150 226 352 330 556 284S770 214 840 238V390H0Z" fill="url(#wp-wave-1)" filter="url(#wp-lift)"/>
+<path d="M0 326C190 286 382 372 600 330S784 286 840 296V390H0Z" fill="url(#wp-wave-2)" filter="url(#wp-lift)"/>
+<path d="M300 390C420 352 560 360 680 344S810 322 840 326V390Z" fill="url(#wp-wave-3)" filter="url(#wp-lift)"/>
+<path d="M0 214C170 168 318 282 520 236S760 150 840 176" stroke="url(#wp-crest)" stroke-width="1.4" filter="url(#wp-soften)"/>
+<path d="M0 270C150 226 352 330 556 284S770 214 840 238" stroke="url(#wp-crest)" stroke-width="1.4" filter="url(#wp-soften)"/>
+<path d="M0 326C190 286 382 372 600 330S784 286 840 296" stroke="url(#wp-crest)" stroke-width="1.4" filter="url(#wp-soften)"/>
+<rect width="840" height="390" filter="url(#wp-grain)"/>
+</g></svg>
