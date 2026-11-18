@@ -332,7 +332,7 @@ export const projects: Project[] = [
   role: Full-stack developer
   tagline: Apps, web and AI products.
   widgets:
-    - { icon: location, label: Based in, value: Toledo }
+    - { icon: location, label: Based in, value: Madrid }
     - { icon: code, label: Focus, value: Apps · Web · AI }
 
 specs:

@@ -5,7 +5,7 @@ export const profile = {
   fullName: 'Ángel Carrascosa Nombela',
   role: 'Senior Software Engineer',
   headline: 'Senior Software Engineer · ex-CTO',
-  location: 'Toledo, España',
+  location: 'Madrid',
   availability: 'Disponible para nuevos proyectos',
   description:
     'Soy Ángel Carrascosa, Senior Software Engineer y ex-CTO de MixReal AI. Construyo apps, webs y productos de IA de la primera idea a producción, con un proceso propio de revisión, seguridad y privacidad.',
@@ -78,7 +78,7 @@ export const experience = [
   {
     period: '2019 – 2023',
     role: 'Videógrafo y artista 3D freelance',
-    place: 'ACARFILMS · Toledo',
+    place: 'ACARFILMS · Madrid',
     note: 'Rodaje, montaje y etalonaje en DaVinci Resolve, modelado en Maya y escenas en Unity. De ahí viene mi ojo para el detalle visual.',
   },
 ];
