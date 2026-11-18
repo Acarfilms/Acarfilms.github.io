@@ -80,14 +80,14 @@ export const projects: Project[] = [
   {
     slug: 'mixreal',
     name: 'MixReal AI',
-    role: 'Cofundador y CTO',
+    role: 'CTO',
     period: '2023 – 2025',
     summary:
       'Entré como programador y terminé como CTO. Por el camino saqué adelante la plataforma de IA generativa de la empresa y proyectos muy distintos para marcas como Heineken, Bayer o Alcampo.',
     title: 'Software, IA y realidad extendida para grandes marcas.',
     lead: 'Durante casi tres años llevé la tecnología de MixReal AI. Allí desarrollé la plataforma de IA generativa de la empresa y una larga lista de proyectos para clientes: tótems interactivos, realidad mixta para la industria, metaversos y filtros de realidad aumentada para marcas como Heineken, Bayer o Alcampo.',
     facts: [
-      { label: 'Rol', value: 'Cofundador y CTO. Antes, programador.' },
+      { label: 'Rol', value: 'CTO. Antes, programador.' },
       { label: 'Periodo', value: 'Febrero de 2023 – diciembre de 2025' },
       { label: 'Equipo', value: 'Dirigí el equipo de ingeniería' },
       { label: 'Base', value: 'Madrid · Híbrido' },
@@ -110,7 +110,7 @@ export const projects: Project[] = [
         title: 'Mi papel',
         body: [
           'Empecé en febrero de 2023 como programador: experiencias de realidad virtual en Unity, filtros de realidad aumentada y backend en Node.js.',
-          'En pocos meses pasé a dirigir la tecnología de la compañía como cofundador y CTO. Me encargué del equipo de ingeniería, de la hoja de ruta técnica y de la arquitectura de todo lo que construíamos, hasta diciembre de 2025.',
+          'En pocos meses pasé a dirigir la tecnología de la compañía como CTO. Me encargué del equipo de ingeniería, de la hoja de ruta técnica y de la arquitectura de todo lo que construíamos, hasta diciembre de 2025.',
           'Siempre con dos frentes abiertos: los encargos de cada cliente y nuestro propio SaaS.',
         ],
       },

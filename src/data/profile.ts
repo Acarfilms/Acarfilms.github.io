@@ -19,7 +19,7 @@ export const profile = {
 
 export const heroWidgets = [
   { label: 'Último puesto', value: 'Senior Software Engineer', detail: 'IABeauty · 2026' },
-  { label: 'Antes', value: 'Cofundador y CTO', detail: 'MixReal AI · 2023 – 2025' },
+  { label: 'Antes', value: 'CTO', detail: 'MixReal AI · 2023 – 2025' },
   { label: 'Especialidad', value: 'Full stack · Web y móvil', detail: 'React, Flutter, Node.js e IA' },
 ];
 
@@ -58,7 +58,7 @@ export const experience = [
   },
   {
     period: '2023 – 2025',
-    role: 'Cofundador y CTO',
+    role: 'CTO',
     place: 'MixReal AI · Madrid',
     note: 'Dirigí el equipo, la hoja de ruta y la arquitectura de todo lo que construíamos, del producto propio a los proyectos para clientes.',
     href: '/proyectos/mixreal/',
