@@ -6,7 +6,7 @@ import { profile, heroWidgets } from '../data/profile';
 <section class="hero" id="top">
   <div class="wrap">
     <p class="eyebrow">{profile.headline}</p>
-    <h1>Hola,<br /> <span class="h1-name">soy Ángel Carrascosa.</span></h1>
+    <h1>Hola, <span class="h1-name">soy Ángel Carrascosa.</span></h1>
 
     <div class="hero-row">
       <p class="hero-lead">
@@ -71,7 +71,10 @@ import { profile, heroWidgets } from '../data/profile';
     font-weight: 700;
   }
 
+  /* Own line, nudged down so the comma above never touches the accent on the Á. */
   .h1-name {
+    display: block;
+    margin-top: 0.32em;
     white-space: nowrap;
   }
 
